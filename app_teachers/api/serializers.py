@@ -1,4 +1,4 @@
-from app_teachers.models import PageSubject, PageTitle, AboutUs, OurServices, OurClasses, ImageOurClasses, ReadyForStart, OurTeam, ContactUs
+from app_teachers.models import PageSubject, PageTitle, AboutUs, OurServices, EducationCategory, CourseSchedule, ImageOurClasses, CourseTable, ReadyForStart, Teacher, ContactUs
 from rest_framework import serializers
 
 class PageSubjectSerializer(serializers.HyperlinkedModelSerializer):
@@ -18,21 +18,36 @@ class AboutUsSerializer(serializers.ModelSerializer):
 
 class OurServicesSerializer(serializers.ModelSerializer):
     class Meta:
-        pass
+        model = OurServices
+        fields = ["id", "title", "description"]
 
-class OurClassesSerializer(serializers.ModelSerializer):
+class EducationCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        pass
+        model = EducationCategory
+        fields = ["id", "title"]
+
+class CourseScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseSchedule
+        fields = ["id", "course", "day", "date", "start_time", "end_time"]
 
 class ImageOurClassesSerializer(serializers.ModelSerializer):
     class Meta:
-        pass
+        model = ImageOurClasses
+        fields = ["id", "course", "image"]
+
+class CourseTableSerializer(serializers.ModelSerializer):
+    schedules = CourseScheduleSerializer(many=True, read_only=True)
+    images = ImageOurClassesSerializer(many=True, read_only=True)
+    class Meta:
+        model = CourseTable
+        fields = ["id", "category", "title", "teacher", "price", "schedules", "images"]
 
 class ReadyForStartSerializer(serializers.ModelSerializer):
     class Meta:
         pass
 
-class OurTeamSerializer(serializers.ModelSerializer):
+class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         pass
 
