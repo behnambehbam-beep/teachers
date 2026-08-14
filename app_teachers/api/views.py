@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from app_teachers.models import PageSubject, PageTitle, AboutUs, OurServices, EducationCategory, CourseTable, CourseSchedule, ImageOurClasses
-from app_teachers.api.serializers import PageSubjectSerializer, PageTitleSerializer, AboutUsSerializer, OurServicesSerializer, EducationCategorySerializer, CourseTableSerializer, CourseScheduleSerializer, ImageOurClassesSerializer
+from app_teachers.models import PageSubject, PageTitle, AboutUs, OurServices, EducationCategory, CourseTable, CourseSchedule, ImageOurClasses, OurTeacher, AcademyNews, ContactUs
+from app_teachers.api.serializers import PageSubjectSerializer, PageTitleSerializer, AboutUsSerializer, OurServicesSerializer, EducationCategorySerializer, CourseTableSerializer, CourseScheduleSerializer, ImageOurClassesSerializer, OurTeacherSerializer, AcademyNewsSerializer, ContactUsSerializer
 
 @api_view()
 def page_subject(request):
@@ -46,7 +46,7 @@ def education_category(request):
 @api_view()
 def course_table(request):
     qs = CourseTable.objects.all()
-    serializer = CourseTableSerializer(qs, many=True)
+    serializer = CourseTableSerializer(qs, many=True, context={"request": request})
     return JsonResponse({
         'result': serializer.data
     })
@@ -63,6 +63,30 @@ def course_schedule(request):
 def image_ourclasses(request):
     qs = ImageOurClasses.objects.all()
     serializer = ImageOurClassesSerializer(qs, many=True)
+    return JsonResponse({
+        'result': serializer.data
+    })
+
+@api_view()
+def our_teacher(request):
+    qs = OurTeacher.objects.all()
+    serializer = OurTeacherSerializer(qs, many=True, context={"request": request})
+    return JsonResponse({
+        'result': serializer.data
+    })
+
+@api_view()
+def academy_news(request):
+    qs = AcademyNews.objects.all()
+    serializer = AcademyNewsSerializer(qs, many=True, context={"request": request})
+    return JsonResponse({
+        'result': serializer.data
+    })
+
+@api_view()
+def contact_us(request):
+    qs = ContactUs.objects.all()
+    serializer = ContactUsSerializer(qs, many=True, context={"request": request})
     return JsonResponse({
         'result': serializer.data
     })

@@ -10,4 +10,7 @@ urlpatterns = [
     path('course-table/', views.course_table),
     path('course-schedule/', views.course_schedule),
     path('image-ourclasses/', views.image_ourclasses),
+    path('our-teacher/', views.our_teacher),
+    path('academy-news/', views.academy_news),
+    path('contact-us/', views.contact_us),
 ]
